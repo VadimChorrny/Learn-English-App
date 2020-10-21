@@ -13,17 +13,16 @@ using namespace std;
 // Initialization of define
 
 #define Clear system("cls");
-#define Sleep Sleep(5000);
+#define Sleep Sleep(10000);
 
 // Initialization of variables
-
-
 
 string login;
 string password;
 bool SingIn = false;
-
-
+int level = 0;
+string knows;
+string noThing;
 
 
 
@@ -32,33 +31,44 @@ void SetColor(int text, int bg) {
     SetConsoleTextAttribute(hStdOut, (WORD)((bg << 4) | text));
 }
 
+
+// function output all words 
+
 void outputAllWords()
 {
-
-    string path = "myFile.txt";
-
     ifstream fin;
-    fin.open(path);
-    if (fin.is_open()) {
-        cout << "File was open :)" << endl;
-        char ch;
-        while (fin.get(ch))
-        {
-            cout << ch;
+    fin.open("myFile.txt");
 
-        }
+    string arr_char;
+
+    for (int i = 0; fin.eof() == false ; i++)
+    {
+        fin >> arr_char;
+        cout << arr_char << endl;
     }
-    else {
-        cout << "!!!Error!!!  File not open!" << endl;
-    }
-    fin.close();
-    cout << endl;
+}
+
+// word selection function
+
+void rightWord()
+{
+    cout << " ----------------------------------------- " << endl;
+    cout << "|                   Rules                 |" << endl;
+    cout << "|-----------------------------------------|" << endl;
+    cout << "|              One word is given          |" << endl;
+    cout << "|              You have a choice          |" << endl;
+    cout << "|               True or False             |" << endl;
+    cout << " ----------------------------------------- " << endl;
+    Sleep;
+    outputAllWords();
+    
+    
+    
 }
 
 void adminPanel()
 {
     string saveload;
-
 
     cout << " ----------------------------------------- " << endl;
     cout << "|  enter 'text' to write your document    |" << endl;
@@ -72,6 +82,7 @@ void adminPanel()
             cout << "file name? " << endl;
             getline(cin, filenamet, '*');
             ifstream loadFile;
+            
 
             loadFile.open(filenamet, ifstream::in);
 
@@ -118,6 +129,7 @@ void showMenu()
         cout << "============================" << endl;
         cout << "1. SHOW ALL ENGLISH WORDS" << endl;
         cout << "2. \tAdmin Panel" << endl;
+        cout << "3. \tRight word" << endl;
         cout << "============================" << endl;
         cout << endl;
         cout << "Enter action->";
@@ -131,20 +143,23 @@ void showMenu()
         }break;
         case 2: {
             adminPanel();
-        }
+        }break;
+        case 3: {
+            rightWord();
+        }break;
         }
     } while (true);
-    
+
 
 }
 
 void Login() {
-    system("mode con cols=25 lines=10");
+    system("mode con cols=30 lines=15");
     string password;
-    cout << "\t  LOGIN" << endl;
+    cout << "\t    LOGIN" << endl;
     cout << "\t ";
     cin >> login;
-    cout << "\t PASSWORD" << endl;
+    cout << "\t    PASSWORD" << endl;
     cout << "\t ";
     cin >> password;
     ifstream singIn;
@@ -203,6 +218,6 @@ void Login() {
 
 int main() {
     Login();
-    
+
     return 0;
 }
