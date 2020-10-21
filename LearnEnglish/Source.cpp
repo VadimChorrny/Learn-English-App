@@ -122,15 +122,15 @@ void adminPanel()
 
 void showMenu()
 {
-    system("mode con cols=100 lines=30");
+    system("mode con cols=80 lines=30");
     int action = 0;
     do
     {
-        cout << "============================" << endl;
-        cout << "1. SHOW ALL ENGLISH WORDS" << endl;
-        cout << "2. \tAdmin Panel" << endl;
-        cout << "3. \tRight word" << endl;
-        cout << "============================" << endl;
+        cout << "\t\t\t ============================" << endl;
+        cout << "\t\t\t| 1. SHOW ALL ENGLISH WORDS  |" << endl;
+        cout << "\t\t\t| 2.    Admin Panel          |" << endl;
+        cout << "\t\t\t| 3.     Right word          |" << endl;
+        cout << "\t\t\t ============================" << endl;
         cout << endl;
         cout << "Enter action->";
         cin >> action;
@@ -154,12 +154,16 @@ void showMenu()
 }
 
 void Login() {
-    system("mode con cols=30 lines=15");
+    system("mode con cols=20 lines=10");
     string password;
-    cout << "\t    LOGIN" << endl;
+    cout << " -----------------" << endl;
+    cout << "|      LOGIN      |" << endl;
+    cout << " -----------------" << endl;
     cout << "\t ";
     cin >> login;
-    cout << "\t    PASSWORD" << endl;
+    cout << " -----------------" << endl;
+    cout << "|   PASSWORD      |" << endl;
+    cout << " -----------------" << endl;
     cout << "\t ";
     cin >> password;
     ifstream singIn;
