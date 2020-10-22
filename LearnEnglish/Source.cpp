@@ -10,36 +10,36 @@
 
 using namespace std;
 
-// Initialization of define
-
+// Initialization of define ( macros )
 #define Clear system("cls");
-#define Sleep Sleep(10000);
 
 // Initialization of variables
-
 string login;
-string password;
-bool SingIn = false;
-int level = 0;
-string knows;
-string noThing;
+string pass;
 
-// struct 
-
-struct Admin
+// struct with admin docs
+struct User
 {
     string adminName = "admin";
-    string adminPass = "1234";
-} admin;
+    string adminPass = "123qwe1q2w3e";
+    string userName = "user";
+    string userPass = "1234";
+} user;
 
+// struct for system levels
+struct Levels
+{
+    int diamonds = 0;
+    int level = 0;
+};
+
+// connect color themes
 void SetColor(int text, int bg) {
     HANDLE hStdOut = GetStdHandle(STD_OUTPUT_HANDLE);
     SetConsoleTextAttribute(hStdOut, (WORD)((bg << 4) | text));
 }
 
-
-// function output all words 
-
+// function output all words | NEED DEVELOPMENT 
 void outputAllWords()
 {
     ifstream fin;
@@ -55,7 +55,6 @@ void outputAllWords()
 }
 
 // word selection function
-
 void rightWord()
 {
     cout << " ----------------------------------------- " << endl;
@@ -72,6 +71,7 @@ void rightWord()
     
 }
 
+// function for admin panel | NEED DEVELOPMENT
 void adminPanel()
 {
     string saveload;
@@ -125,7 +125,7 @@ void adminPanel()
     }
 }
 
-
+// function for output menu
 void showMenu()
 {
     system("mode con cols=80 lines=30");
@@ -159,9 +159,24 @@ void showMenu()
 
 }
 
+//function for mistake
+void mistake()
+{
+    cout << " ----------------------------------------- " << endl;
+    cout << "|                   ERROR                 |" << endl;
+    cout << "|-----------------------------------------|" << endl;
+    cout << "|              YOU IDIOTS BLYAT           |" << endl;
+    cout << "|              YOU IDIOTS BLYAT           |" << endl;
+    cout << "|              YOU IDIOTS BLYAT           |" << endl;
+    cout << "|-----------------------------------------|" << endl;
+    cout << "|              by Chorrny edition         |" << endl;
+    cout << " ----------------------------------------- " << endl;
+    Clear;
+}
+
+// function for authorizatet system | NEED DEVELOPMENT
 void Login() {
     system("mode con cols=20 lines=10");
-    string password;
     cout << " -----------------" << endl;
     cout << "|      LOGIN      |" << endl;
     cout << " -----------------" << endl;
@@ -171,29 +186,28 @@ void Login() {
     cout << "|   PASSWORD      |" << endl;
     cout << " -----------------" << endl;
     cout << "\t ";
-    cin >> password;
-    if (login == admin.adminName) {
-        cout << "success" << endl;
-    }
-    else
-    {
-        cout << "login incorrect" << endl;
-    }
-    if (password == admin.adminPass) {
+    cin >> pass;
+    if (login == user.adminName && login == user.userName) {
         cout << "success" << endl;
         showMenu();
     }
     else
     {
-        cout << "password incorrect" << endl;
+        mistake();
+    }
+    if (pass == user.adminPass && pass == user.userPass) {
+        cout << "success" << endl;
+        showMenu();
+    }
+    else
+    {
+        mistake();
     }
     
 }
 
-
-
 int main() {
-    Login();
+    showMenu();
 
     return 0;
 }
