@@ -24,7 +24,13 @@ int level = 0;
 string knows;
 string noThing;
 
+// struct 
 
+struct Admin
+{
+    string adminName = "admin";
+    string adminPass = "1234";
+} admin;
 
 void SetColor(int text, int bg) {
     HANDLE hStdOut = GetStdHandle(STD_OUTPUT_HANDLE);
@@ -166,56 +172,22 @@ void Login() {
     cout << " -----------------" << endl;
     cout << "\t ";
     cin >> password;
-    ifstream singIn;
-    singIn.open("login.txt");
-    Clear;
-    bool isTrueLogin = false;
-    bool isTruePassword = false;
-    while (!singIn.eof()) {
-        isTrueLogin = false;
-        isTruePassword = false;
-        string l;
-        string p;
-        getline(singIn, l);
-        getline(singIn, p);
-        if (l == login) {
-            isTrueLogin = true;
-            if (p == password) {
-                isTruePassword = true;
-            }
-            break;
-        }
-        if (isTruePassword == true && isTrueLogin == true) {
-            SingIn = true;
-        }
+    if (login == admin.adminName) {
+        cout << "success" << endl;
+    }
+    else
+    {
+        cout << "login incorrect" << endl;
+    }
+    if (password == admin.adminPass) {
+        cout << "success" << endl;
         showMenu();
     }
-    singIn.close();
-    if (SingIn == false) {
-        ofstream SingAdd;
-        SingAdd.open("login.txt", ofstream::app);
-        SingAdd << endl;
-        SingAdd << login << endl;
-        SingAdd << password;
-        SingAdd.close();
-        string str2 = "login.txt";
-        SingAdd.open(str2, ofstream::app);
-        SingAdd.close();
-
-    }if (isTrueLogin == true && isTruePassword == false) {
-        system("mode con cols=30 lines=10");
-        system("cls");
-        SetColor(4, 0);
-        cout << "You enter incorect password " << endl;
-        Sleep(2000);
-        SetColor(15, 0);
-        Login();
+    else
+    {
+        cout << "password incorrect" << endl;
     }
-    else {
-        showMenu();
-    }
-
-    Clear;
+    
 }
 
 
