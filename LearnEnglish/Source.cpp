@@ -16,6 +16,7 @@ using namespace std;
 // Initialization of variables
 string login;
 string pass;
+string rememberWord;
 
 // struct with admin docs
 struct User
@@ -37,6 +38,38 @@ struct Levels
 void SetColor(int text, int bg) {
     HANDLE hStdOut = GetStdHandle(STD_OUTPUT_HANDLE);
     SetConsoleTextAttribute(hStdOut, (WORD)((bg << 4) | text));
+}
+
+// function remember words | NEED DEVELOPMENT
+void rememberWords()
+{
+    cout << " -------------------------------" << endl;
+    cout << "|         Enter your words      |" << endl;
+    cout << "|-------------------------------" << endl;
+    cout << "|" << endl;
+    cout << "---->" << endl;
+    cin >> rememberWord;
+
+    int action = 0;
+    do {
+        
+        cout << "Show all remember word" << endl;
+        cout << "Enter new world" << endl;
+        cin >> action;
+        switch (action) {
+        case 1: {
+            cout << rememberWord << endl;
+        }break;
+        case 2: {
+            rememberWords();
+        }break;
+        case 3: {
+            Clear;
+        }
+        }
+
+    } while (action != 3);
+
 }
 
 // function output all words | NEED DEVELOPMENT 
@@ -136,6 +169,7 @@ void showMenu()
         cout << "\t\t\t| 1. SHOW ALL ENGLISH WORDS  |" << endl;
         cout << "\t\t\t| 2.    Admin Panel          |" << endl;
         cout << "\t\t\t| 3.     Right word          |" << endl;
+        cout << "\t\t\t| 4.    Remember word        |" << endl;
         cout << "\t\t\t ============================" << endl;
         cout << endl;
         cout << "Enter action->";
@@ -153,6 +187,9 @@ void showMenu()
         case 3: {
             rightWord();
         }break;
+        case 4: {
+            rememberWords();
+        }
         }
     } while (true);
 
