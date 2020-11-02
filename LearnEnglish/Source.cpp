@@ -22,9 +22,8 @@ string rememberWord;
 struct User
 {
     string adminName = "admin";
-    string adminPass = "123qwe1q2w3e";
-    string userName = "user";
-    string userPass = "1234";
+    string adminPass = "1234567";
+
 } user;
 
 // struct for system levels
@@ -38,6 +37,21 @@ struct Levels
 void SetColor(int text, int bg) {
     HANDLE hStdOut = GetStdHandle(STD_OUTPUT_HANDLE);
     SetConsoleTextAttribute(hStdOut, (WORD)((bg << 4) | text));
+}
+
+//function for mistake
+void mistake()
+{
+    cout << " ----------------------------------------- " << endl;
+    cout << "|                   ERROR                 |" << endl;
+    cout << "|-----------------------------------------|" << endl;
+    cout << "|              YOU IDIOTS BLYAT           |" << endl;
+    cout << "|              YOU IDIOTS BLYAT           |" << endl;
+    cout << "|              YOU IDIOTS BLYAT           |" << endl;
+    cout << "|-----------------------------------------|" << endl;
+    cout << "|              by Chorrny edition         |" << endl;
+    cout << " ----------------------------------------- " << endl;
+    Clear;
 }
 
 // function remember words | NEED DEVELOPMENT
@@ -75,15 +89,19 @@ void rememberWords()
 // function output all words | NEED DEVELOPMENT 
 void outputAllWords()
 {
+
     ifstream fin;
     fin.open("myFile.txt");
 
     string arr_char;
 
-    for (int i = 0; fin.eof() == false ; i++)
+    for (int i = 0; fin.eof() == false; i++)
     {
         fin >> arr_char;
-        cout << arr_char << endl;
+        cout << "===============================" << endl;
+        cout << "New word: " << arr_char << endl;
+        cout << "===============================" << endl;
+        system("pause");
     }
 }
 
@@ -98,11 +116,37 @@ void rightWord()
     cout << "|               True or False             |" << endl;
     cout << " ----------------------------------------- " << endl;
     Sleep;
-    outputAllWords();
+    
+
     
     
     
 }
+
+
+// function ALL english game
+void englishGames()
+{
+    int action = 0;
+    cout << "\t\t\t==============================" << endl;
+    cout << "\t\t\t| 1. SHOW ALL ENGLISH WORD   |" << endl;
+    cout << "\t\t\t| 2. True and False word     |" << endl;
+    cout << "\t\t\t| 3. Remember word           |" << endl;
+    cout << "\t\t\t==============================" << endl;
+    cin >> action;
+    switch (action)
+    {
+    case 1: {
+        outputAllWords();
+    }break;
+    case 2: {
+        rightWord();
+    }break;
+    case 3: {
+    }break;
+    }
+}
+
 
 // function for admin panel | NEED DEVELOPMENT
 void adminPanel()
@@ -112,6 +156,7 @@ void adminPanel()
     cout << " ----------------------------------------- " << endl;
     cout << "|  enter 'text' to write your document    |" << endl;
     cout << "|  enter 'open file' to open the document |" << endl;
+    cout << "|  enter 'exit' for exit programm         |" << endl;
     cout << " -----------------------------------------" << endl;
     while (true) {
         getline(cin, saveload);
@@ -155,21 +200,23 @@ void adminPanel()
             saveFile.close();
 
         }
+        if (saveload == "exit" && saveload == "Exit" && saveload == "Ext") {
+            system("cls");
+        }
     }
 }
 
 // function for output menu
 void showMenu()
 {
-    system("mode con cols=80 lines=30");
     int action = 0;
     do
     {
         cout << "\t\t\t ============================" << endl;
-        cout << "\t\t\t| 1. SHOW ALL ENGLISH WORDS  |" << endl;
-        cout << "\t\t\t| 2.    Admin Panel          |" << endl;
-        cout << "\t\t\t| 3.     Right word          |" << endl;
-        cout << "\t\t\t| 4.    Remember word        |" << endl;
+        cout << "\t\t\t| 1.    START ENGLISH GAMES  |" << endl;
+        cout << "\t\t\t| 2.       Admin Panel       |" << endl;
+        cout << "\t\t\t| 3.        Right word       |" << endl;
+        cout << "\t\t\t| 4.      Remember word      |" << endl;
         cout << "\t\t\t ============================" << endl;
         cout << endl;
         cout << "Enter action->";
@@ -179,7 +226,7 @@ void showMenu()
         switch (action)
         {
         case 1: {
-            outputAllWords();
+            englishGames();
         }break;
         case 2: {
             adminPanel();
@@ -196,55 +243,60 @@ void showMenu()
 
 }
 
-//function for mistake
-void mistake()
-{
-    cout << " ----------------------------------------- " << endl;
-    cout << "|                   ERROR                 |" << endl;
-    cout << "|-----------------------------------------|" << endl;
-    cout << "|              YOU IDIOTS BLYAT           |" << endl;
-    cout << "|              YOU IDIOTS BLYAT           |" << endl;
-    cout << "|              YOU IDIOTS BLYAT           |" << endl;
-    cout << "|-----------------------------------------|" << endl;
-    cout << "|              by Chorrny edition         |" << endl;
-    cout << " ----------------------------------------- " << endl;
-    Clear;
-}
+
 
 // function for authorizatet system | NEED DEVELOPMENT
 void Login() {
-    system("mode con cols=20 lines=10");
+    string loginW, passwordW, loginF, passwordF;
     cout << " -----------------" << endl;
     cout << "|      LOGIN      |" << endl;
     cout << " -----------------" << endl;
     cout << "\t ";
-    cin >> login;
+    getline(cin, loginW);
     cout << " -----------------" << endl;
     cout << "|   PASSWORD      |" << endl;
     cout << " -----------------" << endl;
     cout << "\t ";
-    cin >> pass;
-    if (login == user.adminName && login == user.userName) {
-        cout << "success" << endl;
-        showMenu();
-    }
-    else
+    getline(cin, passwordW);
+    ifstream in("C:\\Users\\vadim_oyanwuw\\source\\repos\\LearnEnglish\\LearnEnglish\\login.txt");
+    bool Isregister = true;
+    cout << "______________________________\n";
+    if (in.is_open())
     {
-        mistake();
+        while (!in.eof())
+        {
+            getline(in, loginF);
+            getline(in, passwordF);
+            if (loginF == loginW)
+            {
+                Isregister = false;
+                if (passwordF == passwordW)
+                {
+                    cout << "ok";
+                    showMenu();
+                }
+                else
+                {
+                    cout << "Error\n";
+                }
+            }
+        }
     }
-    if (pass == user.adminPass && pass == user.userPass) {
-        cout << "success" << endl;
-        showMenu();
-    }
-    else
+    in.close();
+    if (Isregister)
     {
-        mistake();
+        ofstream file("C:\\Users\\vadim_oyanwuw\\source\\repos\\LearnEnglish\\LearnEnglish\\login.txt", ios_base::app);
+        file << loginW << endl;
+        file << passwordW << endl;
+        cout << "register\n";
+        file.close();
     }
     
 }
 
 int main() {
-    showMenu();
+    
+    Login();
 
     return 0;
 }
