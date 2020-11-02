@@ -17,6 +17,34 @@ using namespace std;
 string login;
 string pass;
 string rememberWord;
+string victorine[100][10][6] = { { {
+    "Ancient Greece. Myths","How did Hera thank Cancer",
+    "She gave him a river","Made him a constellation",
+    "Made him immortal","Made him a constellation"},
+    {"Ancient Greece. Myths",
+    "This king ordered the daughters to kill their brides",
+    "Oedipus","Danai","Egypt","Danai"},
+    {"Ancient Greece. Myths",
+    "Who sympathized with ",
+    "Moiri","Oceanids",
+    "Eat",
+    "Oceanids"},
+    {"Ancient Greece. Myths",
+    "Daughter of King Colchis Eeta, who helped Jason steal the golden fleece.",
+    "Hestia","Iris","Medea","Medea"},
+    {"Ancient Greece. Myths",
+    "What did Odysseus call himself Cyclops Polyphemus?",
+    "No one","Nothing","Someone","No one"},{"Ancient Greece. Myths",
+    "6. What ordered Hercules to get the Amazon insignificant Eurystheus?",
+    "3 pieces of Melanippus","Horse of Antioch","Hippolyta's belt","Hippolyta's belt"},
+    {"Ancient Greece. Myths","thirst and fear.","Antey","Sisyphus","Tantalum","Tantalum"},
+    {"Ancient Greece. Myths"," her children Apollo and Artemis - they killed all her children.",
+    "Given","Pasiphae","Niobe","Niobe"},{"Ancient Greece. Myths",
+    "The unsurpassed master weaver, who challenged Athena Pallas hersurned her into a spider.",
+    "Arachna","Ariadne","Medea","Arachna"},{"Ancient Greece. Myths",
+    "The son of Danai, who defeated Medg Cepheus and Cassiopeia, from imminent death.",
+    "Odysseus","Perseus","Phineas","Perseus"} } };
+int win = 0, newVictorins = 0, choiseVictorins = 0, choiseVariants = 0, victorines = 0;
 
 // struct with admin docs
 struct User
@@ -38,6 +66,39 @@ void SetColor(int text, int bg) {
     HANDLE hStdOut = GetStdHandle(STD_OUTPUT_HANDLE);
     SetConsoleTextAttribute(hStdOut, (WORD)((bg << 4) | text));
 }
+
+
+
+
+void output() {
+    for (int i = 0; i < 10; i++) {
+        for (int j = 1; j < 5; j++) {
+            cout << victorine[choiseVictorins][i][j] << endl;
+        }
+        cout << "Enter number variants ";
+        cin >> choiseVariants;
+        system("cls");
+        for (int j = 1; j < 5; j++) {
+            if (victorine[choiseVictorins][i][j] == victorine[choiseVictorins][i][5]) {
+                cout << victorine[choiseVictorins][i][j] << endl;
+            }
+            else if (victorine[choiseVictorins][i][j] == victorine[choiseVictorins][i][1]) {
+                cout << victorine[choiseVictorins][i][j] << endl;
+            }
+            else {
+                cout << victorine[choiseVictorins][i][j] << endl;
+            }
+        }
+        if (victorine[choiseVictorins][i][choiseVariants++] == victorine[choiseVictorins][i][5]) {
+            win++;
+        }
+
+    }
+    cout << "Correct answers:" << win << " out of 10" << endl;
+}
+
+
+
 
 //function for mistake
 void mistake()
@@ -95,11 +156,16 @@ void outputAllWords()
 
     string arr_char;
 
+    cout << "=====================================" << endl;
+    cout << "|  Write down words you don't know  |" << endl;
+    cout << "=====================================" << endl;
+
     for (int i = 0; fin.eof() == false; i++)
     {
+        
         fin >> arr_char;
         cout << "===============================" << endl;
-        cout << "New word: " << arr_char << endl;
+        cout << "New word ---> " << arr_char << endl;
         cout << "===============================" << endl;
         system("pause");
     }
@@ -131,7 +197,7 @@ void englishGames()
     cout << "\t\t\t==============================" << endl;
     cout << "\t\t\t| 1. SHOW ALL ENGLISH WORD   |" << endl;
     cout << "\t\t\t| 2. True and False word     |" << endl;
-    cout << "\t\t\t| 3. Remember word           |" << endl;
+    cout << "\t\t\t| 3. Test                    |" << endl;
     cout << "\t\t\t==============================" << endl;
     cin >> action;
     switch (action)
@@ -143,6 +209,7 @@ void englishGames()
         rightWord();
     }break;
     case 3: {
+        output();
     }break;
     }
 }
