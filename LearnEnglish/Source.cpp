@@ -49,25 +49,12 @@ string victorine[100][10][6] = { { {
     "Arachna","Ariadne","Medea","Arachna"},{"Ancient Greece. Myths",
     "The son of Danai, who defeated Medg Cepheus and Cassiopeia, from imminent death.",
     "Odysseus","Perseus","Phineas","Perseus"} } };
-string loginW, passwordW, loginF, passwordF;
+string loginW, passwordW, cristalls;
 int win = 0;
 int cristal = 0;
-int choiseQuise = 0; 
-int choiseVariants = 0; 
+int choiseQuise = 0;
+int choiseVariants = 0;
 int quise = 0;
-
-/// <summary>
-/// struct for user profile
-/// </summary>
-struct User
-{
-    string level;
-    string name;
-    void Print() {
-        cout << "Name user:  " << loginW << endl;
-        cout << "User cristal: " << cristal << endl;
-    }
-};
 
 /// <summary>
 /// function for set color
@@ -77,6 +64,9 @@ void SetColor(int text, int bg) {
     SetConsoleTextAttribute(hStdOut, (WORD)((bg << 4) | text));
 }
 
+/// <summary>
+/// function size console
+/// </summary>
 void Size_Console(int x, int y)
 {
     HANDLE out_handle = GetStdHandle(STD_OUTPUT_HANDLE);
@@ -85,6 +75,67 @@ void Size_Console(int x, int y)
     SetConsoleWindowInfo(out_handle, true, &src);
     SetConsoleScreenBufferSize(out_handle, crd);
 }
+
+/// <summary>
+/// function for mistake
+/// </summary>
+void mistake()
+{
+    cout << " ----------------------------------------- " << endl;
+    cout << "|                   ERROR                 |" << endl;
+    cout << "|-----------------------------------------|" << endl;
+    cout << "|              YOU IDIOTS BLYAT           |" << endl;
+    cout << "|              YOU IDIOTS BLYAT           |" << endl;
+    cout << "|              YOU IDIOTS BLYAT           |" << endl;
+    cout << "|-----------------------------------------|" << endl;
+    cout << "|              by Chorrny edition         |" << endl;
+    cout << " ----------------------------------------- " << endl;
+    Clear;
+}
+
+/// <summary>
+/// function remembers word
+/// </summary>
+void remembersWord() {
+
+    string path = "C:\\Users\\vadim_oyanwuw\\source\\repos\\LearnEnglish\\LearnEnglish\\remember.txt";
+    fstream fs;
+    fs.open(path, fstream::in | fstream::out | fstream::app);
+    if (!fs.is_open()) {
+
+        mistake();
+
+    }
+    else {
+        string msg;
+        int value;
+        cout << "Enter '1' for write words" << endl;
+        cout << "Enter '2' for output your words" << endl;
+        cout << "Enter 'close' for exit app" << endl;
+        cin >> value;
+        if (value == 1) {
+            while (cin >> msg)
+            {
+                fs << msg << "\n";
+                if (msg == "close") { // when in cycle.. user enter 'close', cycle stoped
+                    system("cls");
+                    break;
+                }
+            }
+        }
+        else if (value == 2) {
+            while (!fs.eof()) {
+                msg = "";
+                fs >> msg;
+                cout << msg << endl;
+            }
+        }
+        else {
+            cout << "error" << endl;
+        }
+    }
+    fs.close();
+} 
 
 /// <summary>
 /// function output true or false words 
@@ -133,26 +184,9 @@ void output() {
 }
 
 /// <summary>
-/// function for mistake
+/// function add quest
 /// </summary>
-void mistake()
-{
-    cout << " ----------------------------------------- " << endl;
-    cout << "|                   ERROR                 |" << endl;
-    cout << "|-----------------------------------------|" << endl;
-    cout << "|              YOU IDIOTS BLYAT           |" << endl;
-    cout << "|              YOU IDIOTS BLYAT           |" << endl;
-    cout << "|              YOU IDIOTS BLYAT           |" << endl;
-    cout << "|-----------------------------------------|" << endl;
-    cout << "|              by Chorrny edition         |" << endl;
-    cout << " ----------------------------------------- " << endl;
-    Clear;
-}
-
-/// <summary>
-/// function remember word
-/// </summary>
-void rememberWords()
+void addQuest()
 {
     quise + 1;
     cout << "Enter word wich remember ->" << endl;
@@ -195,7 +229,7 @@ void outputAllWords()
 
     for (int i = 0; fin.eof() == false; i++)
     {
-        
+
         fin >> arr_char;
         cout << "===============================" << endl;
         cout << "New word ---> " << arr_char << endl;
@@ -207,7 +241,7 @@ void outputAllWords()
 /// <summary>
 /// function for true word
 /// </summary>
-void rightWord()
+void help()
 {
     cout << " ----------------------------------------- " << endl;
     cout << "|                   Rules                 |" << endl;
@@ -216,12 +250,6 @@ void rightWord()
     cout << "|              You have a choice          |" << endl;
     cout << "|               True or False             |" << endl;
     cout << " ----------------------------------------- " << endl;
-    Sleep;
-    
-
-    
-    
-    
 }
 
 /// <summary>
@@ -233,7 +261,9 @@ void englishGames()
     cout << "\t\t==============================" << endl;
     cout << "\t\t| 1. SHOW ALL ENGLISH WORD   |" << endl;
     cout << "\t\t| 2. True and False word     |" << endl;
-    cout << "\t\t| 3. Remember word           |" << endl;
+    cout << "\t\t| 3. Remember words          |" << endl;
+    cout << "\t\t| 4. Help                    |" << endl;
+    cout << "\t\t| 5. Back to menu            |" << endl;
     cout << "\t\t==============================" << endl;
     cin >> action;
     switch (action)
@@ -245,8 +275,14 @@ void englishGames()
         output();
     }break;
     case 3: {
-        rememberWords();
+        remembersWord();
     }break;
+    case 4: {
+        help();
+    }break;
+    case 5: {
+        help();
+    }
     }
 }
 
@@ -261,16 +297,21 @@ void adminPanel()
     cout << "|  enter 'text' to write your document    |" << endl;
     cout << "|  enter 'open file' to open the document |" << endl;
     cout << "|  enter 'exit' for exit programm         |" << endl;
+    cout << "|  enter 'add' for add new quiz           |" << endl;
     cout << " -----------------------------------------" << endl;
     while (true) {
         getline(cin, saveload);
+
+        if(saveload == "add"){
+            addQuest();
+        }
 
         if (saveload == "open file") {
             string filenamet;
             cout << "file name? " << endl;
             getline(cin, filenamet, '*');
             ifstream loadFile;
-            
+
 
             loadFile.open(filenamet, ifstream::in);
 
@@ -315,11 +356,10 @@ void adminPanel()
 /// </summary>
 void myProfile()
 {
-    User* user = new User;
-    cout << "=======================" << endl;
-    user->Print();
-    cout << "=======================" << endl;
-
+    
+    cout << "Your name: " << loginW << endl;
+    cout << "Your cristal: " << cristal << endl;
+    
 }
 
 /// <summary>
@@ -327,6 +367,11 @@ void myProfile()
 /// </summary>
 void showMenu()
 {
+
+    ifstream("C:\\Users\\vadim_oyanwuw\\source\\repos\\LearnEnglish\\LearnEnglish\\Users\\cristal.txt");
+
+    //string menu = { "1. START ENGLISH GAMES" };
+
     system("mode con cols=60 lines=20");
     int action = 0;
     do
@@ -335,12 +380,14 @@ void showMenu()
         Sleep(100);
         system("color 1"); cout << "\t\t| 1.    START ENGLISH GAMES  |" << endl;
         Sleep(100);
-        system("color 2"); cout << "\t\t| 2.       Settings app      |" << endl;
+        system("color 2"); cout << "\t\t| 2.    Settings app       |" << endl;
         Sleep(100);
-        system("color 3"); cout << "\t\t| 3.      Show my profile    |" << endl;
+        system("color 3"); cout << "\t\t| 3.    Show my profile    |" << endl;
+        Sleep(100);
+        system("color 3"); cout << "\t\t| 4.    Exit               |" << endl;
         Sleep(100);
         system("color 4"); cout << "\t\t==============================" << endl;
-        Sleep(100); 
+        Sleep(100);
         cout << endl;
         system("color 5"); cout << "Enter action->";
         cin >> action;
@@ -357,27 +404,35 @@ void showMenu()
         case 3: {
             myProfile();
         }break;
+        case 4: {
+            ofstream user("C:\\Users\\vadim_oyanwuw\\source\\repos\\LearnEnglish\\LearnEnglish\\Users\\" + loginW + ".txt");
+            user << cristal;
+            user.close();
+            break;
+        }
         default: {
             mistake();
         }
         }
-    } while (true);
-
-
+    } while (action != 4);
 }
 
-// function for authorizatet system | NEED DEVELOPMENT
+/// <summary>
+/// function authorization users
+/// </summary>
 void Login() {
     system("mode con cols=20 lines=10");
-    system("color 1"); cout << " -----------------" << endl;
-    system("color 1"); cout << "|      LOGIN      |" << endl;
-    system("color 1"); cout << " -----------------" << endl;
-    system("color 1"); cout << "\t ";
+    string loginF, passwordF;
+    
+    system("color 3");cout << " -----------------" << endl;
+    system("color 3");cout << "|      LOGIN      |" << endl;
+    system("color 3");cout << " -----------------" << endl;
+    system("color 3");cout << "\t ";
     getline(cin, loginW);
-    system("color 1"); cout << " -----------------" << endl;
-    system("color 1"); cout << "|   PASSWORD      |" << endl;
-    system("color 1"); cout << " -----------------" << endl;
-    system("color 1"); cout << "\t ";
+    system("color 3"); cout << " -----------------" << endl;
+    system("color 3"); cout << "|   PASSWORD      |" << endl;
+    system("color 3"); cout << " -----------------" << endl;
+    system("color 3"); cout << "\t ";
     getline(cin, passwordW);
     ifstream in("C:\\Users\\vadim_oyanwuw\\source\\repos\\LearnEnglish\\LearnEnglish\\login.txt");
     bool Isregister = true;
@@ -387,19 +442,29 @@ void Login() {
         {
             getline(in, loginF);
             getline(in, passwordF);
+
             if (loginF == loginW)
             {
                 Isregister = false;
                 if (passwordF == passwordW)
                 {
-                    cout << "-----------------------" << endl;
-                    cout << "|       Welcome       |" << endl;
-                    cout << "-----------------------" << endl;
+                    system("cls");
+                    system("mode con cols=45 lines=5");
+                    system("color A"); cout << "\t\t  ---------" << endl;
+                    system("color B"); cout << "\t\t | Welcome |" << endl;
+                    system("color C"); cout << "\t\t  ---------" << endl;
+                    Sleep(1000);
+
+                    ifstream user("C:\\Users\\vadim_oyanwuw\\source\\repos\\LearnEnglish\\LearnEnglish\\Users\\" + loginW + ".txt");
+                    getline(user, cristalls);
+                    cristal = stoi(cristalls); // change string in int
+
+
                     showMenu();
                 }
                 else
                 {
-                    mistake();
+                    system("color 4"); cout << "Error\n";
                 }
             }
         }
@@ -407,24 +472,24 @@ void Login() {
     in.close();
     if (Isregister)
     {
-        string action;
-        system("color 3");  cout << "!!!INCORECT PASSWORD!!! WONT CREATE NEW USER? Yes or No" << endl;
-        getline(cin, action);
-        if (action == "yes" && action == "Yes" && action == "y" && action == "Y") {
-            ofstream file("C:\\Users\\vadim_oyanwuw\\source\\repos\\LearnEnglish\\LearnEnglish\\login.txt", ios_base::app);
-            file << loginW << endl;
-            file << passwordW << endl;
-            cout << "register\n";
-            file.close();
-        }
-        else {
-            mistake();
-        }
+        ofstream file("C:\\Users\\vadim_oyanwuw\\source\\repos\\LearnEnglish\\LearnEnglish\\login.txt", ios_base::app);
+        ofstream user("C:\\Users\\vadim_oyanwuw\\source\\repos\\LearnEnglish\\LearnEnglish\\Users\\" + loginW + ".txt");
+        user << "0";
+        user.close();
+        file << loginW << endl;
+        file << passwordW << endl;
+        cout << "register\n";
+        showMenu();
+        file.close();
     }
 }
-
-int main() {
     
+int main() {
+
+    /// <summary>
+    /// function create new users
+    /// </summary>
+    /// <returns></returns>
     Login();
 
     return 0;
