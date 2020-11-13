@@ -1,8 +1,13 @@
 admin
 1234567
+<<<<<<< HEAD
 user
 1234
 fdsfsdf
 123123123
 admin1
 fdsfsdsf
+=======
+admin 
+1234567
+>>>>>>> 76a43f1a8605f8d67e9ea9e5cd19015d68ecef16
