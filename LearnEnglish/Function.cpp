@@ -16,11 +16,25 @@
 #include <fstream>
 #include <Windows.h>
 
+// music connect
+#include "Windows.h"
+#include <MMSystem.h>
+#include <Windows.h>
+
+#pragma comment(lib, "winmm.lib")
+
+// connect file
+#include "Sorting.h"
+
 using namespace std;
 
+
+// connect macros
 #define Clear system("cls");
 
-
+/// <summary>
+/// init global variable
+/// </summary>
 string victorine[100][10][6] = { { {
     "Ancient Greece. Myths","How did Hera thank Cancer",
     "She gave him a river","Made him a constellation",
@@ -55,7 +69,9 @@ int choiseQuise = 0;
 int choiseVariants = 0;
 int quise = 0;
 
-
+/// <summary>
+/// show mistake
+/// </summary>
 void mistake()
 {
     cout << " ----------------------------------------- " << endl;
@@ -71,9 +87,12 @@ void mistake()
     Clear;
 }
 
+/// <summary>
+/// remember word | input & output
+/// </summary>
 void rememberWord()
 {
-    string path = "C:\\Users\\vadim_oyanwuw\\source\\repos\\LearnEnglish\\LearnEnglish\\remember.txt";
+    string path = "remember.txt";
     fstream fs;
     fs.open(path, fstream::in | fstream::out | fstream::app);
     if (!fs.is_open()) {
@@ -86,6 +105,7 @@ void rememberWord()
         int value;
         cout << "Enter '1' for write words" << endl;
         cout << "Enter '2' for output your words" << endl;
+        cout << "Enter '3' for positions words" << endl;
         cout << "Enter 'close' for exit app" << endl;
         cin >> value;
         if (value == 1) {
@@ -105,13 +125,22 @@ void rememberWord()
                 cout << msg << endl;
             }
         }
+        else if (value == 3) {
+            sortingWord();
+        }
         else {
+            mistake();
             cout << "error" << endl;
+            PlaySound(TEXT("fail.wav"), NULL, SND_FILENAME | SND_LOOP | SND_ASYNC);
+
         }
     }
     fs.close();
 }
 
+/// <summary>
+/// true or false questions
+/// </summary>
 void OutPut()
 {
     for (int i = 0; i < 10; i++) {
@@ -139,23 +168,27 @@ void OutPut()
 
     }
     cout << "Correct answers:" << win << " out of 10" << endl;
-    if (cristal <= 3) {
+    PlaySound(TEXT("buster.wav"), NULL, SND_FILENAME | SND_LOOP | SND_ASYNC);
+    if (win <= 3 && win >= 1) {
+        PlaySound(TEXT("fail.wav"), NULL, SND_FILENAME | SND_LOOP | SND_ASYNC);
         cout << "Your cristals: " << cristal << "out for 10" << endl;
         cout << "Your level: beginner" << endl;
     }
-    else if (cristal <= 5) {
+    else if (win <= 5) {
+        PlaySound(TEXT("fail.wav"), NULL, SND_FILENAME | SND_LOOP | SND_ASYNC);
         cout << "Your cristals: " << cristal << "out for 10" << endl;
         cout << "Your level: intermedia" << endl;
     }
-    else if (cristal <= 9) {
+    else if (win <= 9) {
         cout << "Your cristals: " << cristal << "out for 10" << endl;
         cout << "Your level: advanced " << endl;
     }
-    else {
-        cout << "error" << endl;
-    }
+
 }
 
+/// <summary>
+/// adding new quest
+/// </summary>
 void addNewQuest()
 {
     quise + 1;
@@ -182,6 +215,9 @@ void addNewQuest()
     }
 }
 
+/// <summary>
+/// output all words with file
+/// </summary>
 void OutPutAllWord()
 {
     ifstream fin;
@@ -204,6 +240,9 @@ void OutPutAllWord()
     }
 }
 
+/// <summary>
+/// show help
+/// </summary>
 void Help()
 {
     cout << " ----------------------------------------- " << endl;
@@ -215,6 +254,9 @@ void Help()
     cout << " ----------------------------------------- " << endl;
 }
 
+/// <summary>
+/// menu for english name
+/// </summary>
 void EnglishGame()
 {
     Clear;
@@ -247,6 +289,9 @@ void EnglishGame()
     }
 }
 
+/// <summary>
+/// settings app
+/// </summary>
 void Settings()
 {
     string saveload;
@@ -256,11 +301,16 @@ void Settings()
     cout << "|  enter 'open file' to open the document |" << endl;
     cout << "|  enter 'exit' for exit programm         |" << endl;
     cout << "|  enter 'add' for add new quiz           |" << endl;
+    cout << "|  enter 'delete' for delete word         |" << endl;
     cout << " -----------------------------------------" << endl;
     while (true) {
         getline(cin, saveload);
 
-        if (saveload == "add") {
+        if (saveload == "delete" && saveload == "del" && saveload == "Delete" && saveload == "Del") {
+            removeWord();
+        }
+
+        if (saveload == "add" ) {
             addNewQuest();
         }
 
@@ -276,14 +326,10 @@ void Settings()
             cout << "the text you entered was: ";
 
             while (loadFile.good()) {
-
                 cout << (char)loadFile.get();
-
                 Sleep(100);
             }
-
             cout << "" << endl;
-
             loadFile.close();
 
         }
@@ -299,9 +345,7 @@ void Settings()
             ofstream saveFile(filename);
 
             saveFile << textToSave;
-
             saveFile.close();
-
         }
         if (saveload == "exit" && saveload == "Exit" && saveload == "Ext") {
             system("cls");
@@ -309,6 +353,9 @@ void Settings()
     }
 }
 
+/// <summary>
+/// show user profile
+/// </summary>
 void UserProfile()
 {
     Clear;
@@ -318,10 +365,12 @@ void UserProfile()
     Clear;
 }
 
+/// <summary>
+/// show menu 
+/// </summary>
 void ShowMenu()
 {
     system("mode con cols=60 lines=20");
-
     ifstream("C:\\Users\\vadim_oyanwuw\\source\\repos\\LearnEnglish\\LearnEnglish\\Users\\cristal.txt");
     int action = 0;
     do
@@ -363,11 +412,13 @@ void ShowMenu()
     } while (action != 4);
 }
 
+/// <summary>
+/// login user
+/// </summary>
 void AuthUser()
 {
     system("mode con cols=20 lines=10");
     string loginF, passwordF;
-
     system("color 3"); cout << " -----------------" << endl;
     system("color 3"); cout << "|      LOGIN      |" << endl;
     system("color 3"); cout << " -----------------" << endl;
@@ -409,6 +460,8 @@ void AuthUser()
                 else
                 {
                     system("color 4"); cout << "Error\n";
+                    mistake();
+                    PlaySound(TEXT("fail.wav"), NULL, SND_FILENAME | SND_LOOP | SND_ASYNC);
                 }
             }
         }
@@ -416,8 +469,8 @@ void AuthUser()
     in.close();
     if (Isregister)
     {
-        ofstream file("C:\\Users\\vadim_oyanwuw\\source\\repos\\LearnEnglish\\LearnEnglish\\login.txt", ios_base::app);
-        ofstream user("C:\\Users\\vadim_oyanwuw\\source\\repos\\LearnEnglish\\LearnEnglish\\Users\\" + loginW + ".txt");
+        ofstream file("login.txt", ios_base::app);
+        ofstream user(loginW + ".txt");
         user << "0";
         user.close();
         file << loginW << endl;
