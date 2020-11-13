@@ -35,6 +35,7 @@ using namespace std;
 /// <summary>
 /// init global variable
 /// </summary>
+
 string victorine[100][10][6] = { { {
     "Ancient Greece. Myths","How did Hera thank Cancer",
     "She gave him a river","Made him a constellation",
@@ -68,6 +69,26 @@ int cristal = 0;
 int choiseQuise = 0;
 int choiseVariants = 0;
 int quise = 0;
+
+/// <summary>
+/// setcolor setting function
+/// </summary>
+void SetColor(int text, int bg) {
+    HANDLE hStdOut = GetStdHandle(STD_OUTPUT_HANDLE);
+    SetConsoleTextAttribute(hStdOut, (WORD)((bg << 4) | text));
+}
+
+/// <summary>
+/// function size console
+/// </summary>
+void Size_Console(int x, int y)
+{
+    HANDLE out_handle = GetStdHandle(STD_OUTPUT_HANDLE);
+    COORD crd = { x, y };
+    SMALL_RECT src = { 0, 0, crd.X , crd.Y };
+    SetConsoleWindowInfo(out_handle, true, &src);
+    SetConsoleScreenBufferSize(out_handle, crd);
+}
 
 /// <summary>
 /// show mistake
@@ -124,6 +145,7 @@ void rememberWord()
                 fs >> msg;
                 cout << msg << endl;
             }
+            system("pause");
         }
         else if (value == 3) {
             sortingWord();
@@ -164,6 +186,7 @@ void OutPut()
         if (victorine[choiseQuise][i][choiseVariants++] == victorine[choiseQuise][i][5]) {
             win++;
             cristal++;
+            
         }
 
     }
@@ -183,8 +206,11 @@ void OutPut()
         cout << "Your cristals: " << cristal << "out for 10" << endl;
         cout << "Your level: advanced " << endl;
     }
+    system("pause");
 
 }
+
+void ShowMenu();
 
 /// <summary>
 /// adding new quest
@@ -245,13 +271,20 @@ void OutPutAllWord()
 /// </summary>
 void Help()
 {
-    cout << " ----------------------------------------- " << endl;
-    cout << "|                   Rules                 |" << endl;
-    cout << "|-----------------------------------------|" << endl;
-    cout << "|              One word is given          |" << endl;
-    cout << "|              You have a choice          |" << endl;
-    cout << "|               True or False             |" << endl;
-    cout << " ----------------------------------------- " << endl;
+    Clear;
+    cout << endl;
+    cout << endl;
+    cout << endl;
+    cout << endl;
+    cout << endl;
+    cout << "\t ----------------------------------------- " << endl;
+    cout << "\t|                   Rules                 |" << endl;
+    cout << "\t|-----------------------------------------|" << endl;
+    cout << "\t|              One word is given          |" << endl;
+    cout << "\t|              You have a choice          |" << endl;
+    cout << "\t|               True or False             |" << endl;
+    cout << "\t ----------------------------------------- " << endl;
+    system("pause");
 }
 
 /// <summary>
@@ -260,15 +293,36 @@ void Help()
 void EnglishGame()
 {
     Clear;
-    int action = 0;
-    cout << "\t\t==============================" << endl;
-    cout << "\t\t| 1. SHOW ALL ENGLISH WORD   |" << endl;
-    cout << "\t\t| 2. True and False word     |" << endl;
-    cout << "\t\t| 3. Remember words          |" << endl;
-    cout << "\t\t| 4. Help                    |" << endl;
-    cout << "\t\t| 5. Back to menu            |" << endl;
-    cout << "\t\t==============================" << endl;
-    cin >> action;
+    int action = 1;
+    int a = 0;
+    setlocale(LC_ALL, "");
+    string  ach[] = { "1-SHOW ALL ENGLISH WORDS","2-TRUE OR FALSE","3-REMEMBER WORDS","4-HELP", "5-EXIT" };
+    while (a != 13) {
+        system("cls");
+        for (int i = 0; i < 5; i++) {
+            if (i == action - 1) {
+                SetColor(0, 14);
+            }
+            if (i != action - 1) {
+                SetColor(0, 15);
+            }
+            cout << ach[i] << endl; // bag
+            SetColor(0, 15);
+        }
+        a = _getch();
+        if (a == 119) {
+            action--;
+            if (action < 1) {
+                action = 1;
+            }
+        }
+        else if (a == 115) {
+            action++;
+            if (action > 8) {
+                action = 1;
+            }
+        }
+    }
     switch (action)
     {
     case 1: {
@@ -284,10 +338,12 @@ void EnglishGame()
         Help();
     }break;
     case 5: {
-        Help();
+        ShowMenu();
     }
     }
 }
+
+void AboutAuthor();
 
 /// <summary>
 /// settings app
@@ -302,11 +358,22 @@ void Settings()
     cout << "|  enter 'exit' for exit programm         |" << endl;
     cout << "|  enter 'add' for add new quiz           |" << endl;
     cout << "|  enter 'delete' for delete word         |" << endl;
+    cout << "|  enter 'sort' for sorting your file     |" << endl;
+    cout << "|  enter 'info' for information Author    |" << endl;
     cout << " -----------------------------------------" << endl;
     while (true) {
         getline(cin, saveload);
 
-        if (saveload == "delete" && saveload == "del" && saveload == "Delete" && saveload == "Del") {
+        if (saveload == "info" || saveload == "Info") {
+            AboutAuthor();
+        }
+
+        if (saveload == "sort" || saveload == "Sort")
+        {
+            sortingLong();
+        }
+
+        if (saveload == "delete" || saveload == "del" || saveload == "Delete" || saveload == "Del") {
             removeWord();
         }
 
@@ -347,10 +414,26 @@ void Settings()
             saveFile << textToSave;
             saveFile.close();
         }
-        if (saveload == "exit" && saveload == "Exit" && saveload == "Ext") {
-            system("cls");
+        if (saveload == "exit" || saveload == "Exit" || saveload == "Ext") {
+            ShowMenu();
         }
     }
+}
+
+/// <summary>
+/// prototype function
+/// </summary>
+void AuthUser();
+
+/// <summary>
+/// about author informations
+/// </summary>
+void AboutAuthor()
+{
+    system("cls");
+    cout << "Created apps ---> ";
+    system("color 4"); cout << "VADIM CHORRNY" << endl;
+    
 }
 
 /// <summary>
@@ -359,8 +442,10 @@ void Settings()
 void UserProfile()
 {
     Clear;
+    system("color 4"); cout << "================" << endl;
     system("color 3"); cout << "Your name: " << loginW << endl;
     system("color 3"); cout << "Your cristal: " << cristal << endl;
+    system("color 4"); cout << "================" << endl;
     system("pause");
     Clear;
 }
@@ -372,44 +457,63 @@ void ShowMenu()
 {
     system("mode con cols=60 lines=20");
     ifstream("C:\\Users\\vadim_oyanwuw\\source\\repos\\LearnEnglish\\LearnEnglish\\Users\\cristal.txt");
-    int action = 0;
-    do
-    {
-        system("color 4"); cout << "\t\t==============================" << endl;
-        Sleep(100);
-        system("color 1"); cout << "\t\t| 1.    START ENGLISH GAMES  |" << endl;
-        Sleep(100);
-        system("color 2"); cout << "\t\t| 2.    Settings app         |" << endl;
-        Sleep(100);
-        system("color 3"); cout << "\t\t| 3.    Show my profile      |" << endl;
-        Sleep(100);
-        system("color 3"); cout << "\t\t| 4.    Exit                 |" << endl;
-        Sleep(100);
-        system("color 4"); cout << "\t\t==============================" << endl;
-        Sleep(100);
-        Sleep(100);
-        cout << endl;
-        system("color 5"); cout << "Enter action->";
-        cin >> action;
-        switch (action)
-        {
-        case 1: {
-            EnglishGame();
-        }break;
-        case 2: {
-            Settings();
-        }break;
-        case 3: {
-            UserProfile();
-        }break;
-        case 4: {
-            ofstream user("C:\\Users\\vadim_oyanwuw\\source\\repos\\LearnEnglish\\LearnEnglish\\Users\\" + loginW + ".txt");
-            user << cristal;
-            user.close();
-            break;
-        }
-        }
-    } while (action != 4);
+    
+        // new
+        int a = 0;
+        int action = 1;
+        do {
+            setlocale(LC_ALL, "");
+            string  ach[] = { "1-START ENGLISH GAMES","2-Setting app","3-Show my profile","4-Exit","5-UnLogin" };
+            while (a != 13) {
+                system("cls");
+                for (int i = 0; i < 4; i++) {
+                    if (i == action - 1) {
+                        SetColor(0, 14);
+                    }
+                    if (i != action - 1) {
+                        SetColor(0, 15);
+                    }
+                    cout << ach[i] << endl; // bag
+                    SetColor(0, 15);
+                }
+                a = _getch();
+                if (a == 119) {
+                    action--;
+                    if (action < 1) {
+                        action = 1;
+                    }
+                }
+                else if (a == 115) {
+                    action++;
+                    if (action > 8) {
+                        action = 1;
+                    }
+                }
+            }
+            switch (action)
+            {
+            case 1: {
+                EnglishGame();
+            }break;
+            case 2: {
+                Settings();
+            }break;
+            case 3: {
+                UserProfile();
+            }break;
+            case 4: {
+                ofstream user("C:\\Users\\vadim_oyanwuw\\source\\repos\\LearnEnglish\\LearnEnglish\\Users\\" + loginW + ".txt");
+                user << cristal;
+                user.close();
+                break;
+            }break;
+            case 5: {
+                AuthUser();
+            }
+            }
+        } while (action != 5);
+
+
 }
 
 /// <summary>

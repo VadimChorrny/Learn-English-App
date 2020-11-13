@@ -2,6 +2,9 @@
 #include <fstream>
 #include <iostream>
 #include <string>
+#include <algorithm>
+#include <vector>
+
 
 using namespace std;
 
@@ -52,5 +55,36 @@ void removeWord()
     {
         cout << "Error";
     }
+}
+
+void sortingLong()
+{
+    string nameFile;
+    cout << "Enter name for file was open: " << endl;
+    cin >> nameFile;
+    std::vector<std::string> buff;
+    {
+        
+        string line;
+        ifstream file(nameFile);
+        while (getline(file, line)) {
+            buff.push_back(line);
+            if (line == "exit") {
+                system("cls");
+            }
+        }
+            
+        
+    }
+    sort(buff.begin(), buff.end());
+    {
+        ofstream file(nameFile, ios::out | ios::trunc);
+        for (auto& str : buff)
+            file << str << endl;
+        cout << "File was sorted!" << endl;
+        cout << "Enter 'exit' for exit apps" << endl;
+
+    }
+
 }
 

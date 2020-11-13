@@ -3,3 +3,5 @@
 void sortingWord();
 
 void removeWord();
+
+void sortingLong();
